@@ -5,7 +5,7 @@ int dutyCycle; //0 to 255
 int inputpin = 1; //GPIO1
 int outputpin = 0; //GPIO0
 int channel = 0; //0 to 15
-int freq = 100000; //I dont know the range, can at least go up to 5khz
+int freq = 50000; //
 int resolution = 8; //
 
 void setup(){
