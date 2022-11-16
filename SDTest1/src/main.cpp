@@ -9,10 +9,10 @@ This example shows how use the utility libraries
  
   The circuit:
     SD card attached to SPI bus as follows:
-        SS    = 5;
-        MOSI  = 23;
-        MISO  = 19;
-        SCK   = 18;
+        SS    = 10;
+        MOSI  = 7;
+        MISO  = 2;
+        SCK   = 6;
  
  
    by Mischianti Renzo <https://www.mischianti.org>
@@ -23,10 +23,12 @@ This example shows how use the utility libraries
 */
 // include the SD library:
 const int chipSelect = SS;
- 
+uint8_t buf[20];
+
 void printDirectory(File dir, int numTabs);
  
 void setup() {
+
   // Open serial communications and wait for port to open:
   Serial.begin(115200);
   while (!Serial) {
@@ -82,9 +84,19 @@ void setup() {
   Serial.print("Used bytes: ");
   Serial.println(SD.usedBytes());
  
-  File dir =  SD.open("/");
-  printDirectory(dir, 0);
+  File dir =  SD.open("/test.txt", FILE_APPEND);  // Don't use FILE_WRITE unless you want to lose data
  
+  dir.println("AD;FLKJASDFL;KJAS");     // also a print() function
+  dir.close();
+
+  delay(2000);
+  Serial.println("Reading file");
+  dir = SD.open("/test.txt");
+     while(dir.available()){
+        Serial.write(dir.read());
+    }
+  printDirectory(dir, 0);
+  dir.close();
 }
  
 void loop(void) {
